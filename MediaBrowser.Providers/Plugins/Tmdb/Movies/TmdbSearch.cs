@@ -56,6 +56,7 @@ namespace MediaBrowser.Providers.Plugins.Tmdb.Movies
 
         public Task<IEnumerable<RemoteSearchResult>> GetMovieSearchResults(ItemLookupInfo idInfo, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("TmdbSearch:GetMovieSearchResults({0})", idInfo.Name);
             return GetSearchResults(idInfo, "movie", cancellationToken);
         }
 
@@ -74,6 +75,8 @@ namespace MediaBrowser.Providers.Plugins.Tmdb.Movies
                 return new List<RemoteSearchResult>();
             }
 
+            _logger.LogInformation("TmdbSearch:GetSearchResults({0})", idInfo.Name);
+
             var tmdbSettings = await TmdbMovieProvider.Current.GetTmdbSettings(cancellationToken).ConfigureAwait(false);
 
             var tmdbImageUrl = tmdbSettings.images.GetImageUrl("original");
@@ -81,6 +84,9 @@ namespace MediaBrowser.Providers.Plugins.Tmdb.Movies
             // ParseName is required here.
             // Caller provides the filename with extension stripped and NOT the parsed filename
             var parsedName = _libraryManager.ParseName(name);
+            _logger.LogInformation("TmdbSearch: ParseName({0})={1}", idInfo.Name, parsedName.Name);
+
+
             var yearInName = parsedName.Year;
             name = parsedName.Name;
             year ??= yearInName;

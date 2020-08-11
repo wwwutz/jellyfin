@@ -2636,11 +2636,22 @@ namespace Emby.Server.Implementations.Library
         {
             var resolver = new VideoResolver(GetNamingOptions());
 
+            _logger.LogDebug("LibraryManager:ParseName({0})", name);
+
+            resolver.TryCleanString(name, out var newName);
+
+            _logger.LogDebug("LibraryManager:ParseName:newName={0}", newName.ToString());
+
             var result = resolver.CleanDateTime(name);
+
+            _logger.LogDebug("LibraryManager:ParseName:result.Name({0})={1}",name, result.Name);
+            _logger.LogDebug("LibraryManager:ParseName:result.Year({0})={1}",name, result.Year);
+
+//            _logger.LogDebug("LibraryManager:ParseName:Stack={0}", System.Environment.StackTrace);
 
             return new ItemLookupInfo
             {
-                Name = resolver.TryCleanString(result.Name, out var newName) ? newName.ToString() : result.Name,
+                Name = newName.ToString(),
                 Year = result.Year
             };
         }
