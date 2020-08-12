@@ -117,6 +117,7 @@ namespace MediaBrowser.Providers.Plugins.Tmdb.Movies
 
         public Task<MetadataResult<Movie>> GetMetadata(MovieInfo info, CancellationToken cancellationToken)
         {
+           _logger.LogInformation("TmdbMovieDbProvider:GetMetaData(info) info.Name={0}", info.Name);
             return GetItemMetadata<Movie>(info, cancellationToken);
         }
 
