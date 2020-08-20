@@ -7,38 +7,22 @@ using System.Text.RegularExpressions;
 
 namespace Emby.Naming.Video
 {
-    /// <summary>
-    /// <see href="http://kodi.wiki/view/Advancedsettings.xml#video" />.
-    /// </summary>
+    // run all regexes through string one after the other, do not bail out
     public static class CleanStringParser
     {
         public static bool TryClean(string name, IReadOnlyList<Regex> expressions, out ReadOnlySpan<char> newName)
         {
-            var len = expressions.Count;
-            for (int i = 0; i < len; i++)
+            var tryname = name;
+            for (int i = 0; i < expressions.Count; i++)
             {
-                if (TryClean(name, expressions[i], out newName))
-                {
-                    return true;
-                }
+                Console.Error.WriteLine("TryClean(" + tryname + ", " + expressions[i] + ")");
+                tryname = expressions[i].Replace(tryname, string.Empty);
+                Console.Error.WriteLine("TryClean= " + tryname);
             }
 
-            newName = ReadOnlySpan<char>.Empty;
-            return false;
-        }
+            newName = tryname;
 
-        private static bool TryClean(string name, Regex expression, out ReadOnlySpan<char> newName)
-        {
-            var match = expression.Match(name);
-            int index = match.Index;
-            if (match.Success && index != 0)
-            {
-                newName = name.AsSpan().Slice(0, match.Index);
-                return true;
-            }
-
-            newName = string.Empty;
-            return false;
+            return true;
         }
     }
 }

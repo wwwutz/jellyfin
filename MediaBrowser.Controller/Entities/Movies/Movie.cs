@@ -148,7 +148,8 @@ namespace MediaBrowser.Controller.Entities.Movies
 
             if (!ProductionYear.HasValue)
             {
-                var info = LibraryManager.ParseName(Name);
+//                var info = LibraryManager.ParseName(Name);
+                var info = LibraryManager.ParseName(System.IO.Path.GetFileName(Path));
 
                 var yearInName = info.Year;
 

@@ -28,6 +28,9 @@ namespace Jellyfin.Naming.Tests.Video
         [InlineData("Crouching.Tiger.Hidden.Dragon.BDrip.mkv", "Crouching.Tiger.Hidden.Dragon")]
         [InlineData("Crouching.Tiger.Hidden.Dragon.BDrip-HDC.mkv", "Crouching.Tiger.Hidden.Dragon")]
         [InlineData("Crouching.Tiger.Hidden.Dragon.4K.UltraHD.HDR.BDrip-HDC.mkv", "Crouching.Tiger.Hidden.Dragon")]
+        [InlineData("20160301 2003 - Pro7 MAXX - Der Ghostwriter.ts", "Der Ghostwriter.ts")]
+        [InlineData("20170220 2003 - ZDF HD - Nachtschicht - Ladies First.ts", "Nachtschicht - Ladies First.ts")]
+
         // FIXME: [InlineData("After The Sunset - [0004].mkv", "After The Sunset")]
         public void CleanStringTest(string input, string expectedName)
         {

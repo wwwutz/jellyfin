@@ -73,6 +73,8 @@ namespace MediaBrowser.Providers.Manager
                     Logger.LogDebug("Refreshing {0} {1} because item.RequiresRefresh() returned true", typeof(TItemType).Name, item.Path ?? item.Name);
                 }
             }
+// Path oder Name ...
+            Logger.LogDebug("MetadataService:RefresMetadata() typeof(TItemType).Name='{0}'=>{1}", typeof(TItemType).Name, item.Path ?? item.Name);
 
             var itemImageProvider = new ItemImageProvider(Logger, ProviderManager, FileSystem);
             var localImagesFailed = false;
