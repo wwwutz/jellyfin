@@ -6,33 +6,35 @@ using Microsoft.Extensions.Logging;
 
 namespace Emby.Dlna.Service
 {
-    public class BaseService : IEventManager
+    public class BaseService : IDlnaEventManager
     {
-        protected IEventManager _eventManager;
-        protected IHttpClient _httpClient;
-        protected ILogger Logger;
-
         protected BaseService(ILogger<BaseService> logger, IHttpClient httpClient)
         {
             Logger = logger;
-            _httpClient = httpClient;
+            HttpClient = httpClient;
 
-            _eventManager = new EventManager(logger, _httpClient);
+            EventManager = new DlnaEventManager(logger, HttpClient);
         }
+
+        protected IDlnaEventManager EventManager { get; }
+
+        protected IHttpClient HttpClient { get; }
+
+        protected ILogger Logger { get; }
 
         public EventSubscriptionResponse CancelEventSubscription(string subscriptionId)
         {
-            return _eventManager.CancelEventSubscription(subscriptionId);
+            return EventManager.CancelEventSubscription(subscriptionId);
         }
 
         public EventSubscriptionResponse RenewEventSubscription(string subscriptionId, string notificationType, string timeoutString, string callbackUrl)
         {
-            return _eventManager.RenewEventSubscription(subscriptionId, notificationType, timeoutString, callbackUrl);
+            return EventManager.RenewEventSubscription(subscriptionId, notificationType, timeoutString, callbackUrl);
         }
 
         public EventSubscriptionResponse CreateEventSubscription(string notificationType, string timeoutString, string callbackUrl)
         {
-            return _eventManager.CreateEventSubscription(notificationType, timeoutString, callbackUrl);
+            return EventManager.CreateEventSubscription(notificationType, timeoutString, callbackUrl);
         }
     }
 }
